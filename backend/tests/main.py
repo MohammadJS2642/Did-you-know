@@ -21,12 +21,18 @@ for inDiv in did_you_know:
     for nextDiv in t:
         ul = nextDiv.find_all('ul')
         for lst in ul:
-            li = lst.text
+            li = [lst.text]
+
+            for l in li:
+                mylst = l.split('\n')
+                print(mylst)
+                for m in mylst:
+                    # print(m)
+                    pass
+
 
 for div in second_div:
     Monuments = div.find('div', {'id': 'mf-otd'})
 
 for div in thirth_div:
     Selected_image_today = div.find('div', {'class': 'center'})
-
-print(li)
