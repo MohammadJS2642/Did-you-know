@@ -1,10 +1,9 @@
-import json
-from django import http
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import requests
 from bs4 import BeautifulSoup
 import environ
+from ModelsDB.models import DidYouKnow
 
 root = environ.Path(__file__)
 env = environ.Env()
@@ -30,7 +29,12 @@ def getter(request):
             for nextDiv in t:
                 ul = nextDiv.find_all('ul')
                 for lst in ul:
-                    li = lst.text
+                    li = [lst.text]
+
+                    for l in li:
+                        mylst = l.split('\n')
+                        # for m in mylst:
+                        #     myContext = m
 
     for div in second_div:
         Monuments = div.find('div', {'id': 'mf-otd'})
@@ -38,15 +42,12 @@ def getter(request):
     for div in thirth_div:
         Selected_image_today = div.find('div', {'class': 'center'})
 
-    context = {
-        'Selected_article': Selected_article,
-        'did_you_know': did_you_know,
-        'Monuments': Monuments,
-        'Selected_image_today': Selected_image_today,
-    }
+    did_you_know = DidYouKnow()
+    did_you_know.text = mylst
+    did_you_know.save()
 
     arr = [li]
 
     # return HttpResponse(req)
-    return HttpResponse(arr)
+    return HttpResponse(mylst)
     # return JsonResponse(arr)
