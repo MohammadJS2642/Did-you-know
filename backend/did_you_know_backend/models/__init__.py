@@ -1,0 +1,1 @@
+from .acticlemodel import Articles
